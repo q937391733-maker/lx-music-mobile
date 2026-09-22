@@ -8,10 +8,12 @@ const promises = new Map()
 
 const parseTools = {
   rxps: {
+    info: /^{"/,
     lineTime: /^\[(\d+),\d+\]/,
     lineTime2: /^\[([\d:.]+)\]/,
     wordTime: /\(\d+,\d+\)/,
     wordTimeAll: /(\(\d+,\d+\))/g,
+    timeLabelFixRxp: /(?:\.0+|0+)$/,
   },
   msFormat(timeMs) {
     if (Number.isNaN(timeMs)) return ''

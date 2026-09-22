@@ -238,7 +238,7 @@ export const setPlaybackRate = async(num: number) => {
   return TrackPlayer.setRate(num)
 }
 export const updateNowPlayingTitles = async(duration: number, title: string, artist: string, album: string) => {
-  console.log('set playing titles', duration, title, artist, album)
+  // console.log('set playing titles', duration, title, artist, album)
   if (Platform.OS == 'ios') return Promise.resolve()
   return TrackPlayer.updateNowPlayingTitles(duration, title, artist, album)
 }
