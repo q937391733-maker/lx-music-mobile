@@ -13,7 +13,6 @@ import IsShowLyricRoma from './IsShowLyricRoma'
 import IsS2T from './IsS2T'
 import MaxCache from './MaxCache'
 import { useI18n } from '@/lang'
-import { isDesktopLyricSupported } from '@/utils/nativeModules/lyricDesktop'
 
 
 export default memo(() => {
@@ -25,7 +24,7 @@ export default memo(() => {
       <IsAutoCleanPlayedList />
       <IsHandleAudioFocus />
       <IsEnableAudioOffload />
-      {isDesktopLyricSupported ? <IsShowBluetoothLyric /> : null}
+      <IsShowBluetoothLyric />
       <IsShowNotificationImage />
       <IsShowLyricTranslation />
       <IsShowLyricRoma />
