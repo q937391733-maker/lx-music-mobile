@@ -4,6 +4,8 @@ import { playMusic as handlePlayMusic } from './playList'
 import { destroyTrackPlayerCore } from './trackPlayerCore'
 import { existsFile, moveFile, privateStorageDirectoryPath, temporaryDirectoryPath } from '@/utils/fs'
 import { toast } from '@/utils/tools'
+import settingState from '@/store/setting/state'
+import { updateNowPlayingInfo } from '@/utils/nativeModules/nowPlaying'
 import { NativeModules, Platform } from 'react-native'
 import { getAccuratePosition, seekToTime } from './seek'
 import {
@@ -239,7 +241,13 @@ export const setPlaybackRate = async(num: number) => {
 }
 export const updateNowPlayingTitles = async(duration: number, title: string, artist: string, album: string) => {
   // console.log('set playing titles', duration, title, artist, album)
-  if (Platform.OS == 'ios') return Promise.resolve()
+  if (Platform.OS == 'ios') {
+    // 蓝牙歌词开关：勾选才推（正序：歌词/歌名-歌手/专辑），不勾选恢复官方原版（iOS 不推）
+    if (!settingState.setting['player.isShowBluetoothLyric']) return Promise.resolve()
+    // iOS 走系统 MPNowPlayingInfoCenter（AVRCP），把 title/artist/album 推给车机
+    // 用 iOS 原生 NowPlayingModule（原版播放验证过的安全路径，参数与原生签名匹配）
+    return updateNowPlayingInfo({ title, artist, album })
+  }
   return TrackPlayer.updateNowPlayingTitles(duration, title, artist, album)
 }
 

@@ -101,6 +101,9 @@ const updateMetaInfo = async(mInfo: LX.Player.MusicInfo, lyric?: string, isPlayi
   let singer: string
   let album: string | undefined
   if (Platform.OS == 'ios') {
+    // 蓝牙歌词开启时：歌词/歌名/专辑由 updateNowPlayingTitles（蓝牙歌词路径）统一推送，
+    // 这里不再推，避免两条推送路径打架导致车机显示乱跳
+    if (settingState.setting['player.isShowBluetoothLyric']) return
     name = formatNowPlayingTitleLine(mInfo.name ?? 'Unknow', mInfo.singer ?? '')
     singer = lyric ?? ''
     album = ''
